@@ -420,7 +420,6 @@ const app = L3(class {
 					th('Filter by Publication Type');
 					th('Filter by MeSH qualifiers');
 					th('Filter by Date Published');
-					th('Filter by Text');
 				});
 				tr( () => {
 
@@ -460,20 +459,6 @@ const app = L3(class {
 						});
 */
 					});
-					td({valign:'top'},() => {
-						input({size:40
-							,type:'text'
-							,value:this.$bind.inputSearchTerms
-							,onkeydown:evt=>{
-								if (evt.key === "Enter") {
-									evt.preventDefault()
-									this.doFilter()
-								}
-							}
-						});
-						button({onclick:this.doFilter.bind(this)},'Filter');
-
-					});
 				});
 			});
 
@@ -486,6 +471,21 @@ const app = L3(class {
 						checkbox(this.$bind.chkCol[code],name,{style:{paddingRight:"12px"}})
 					}
 				});
+			})
+
+			L3.elements.h3("Filter by Text")
+			div({class:"form-group"},()=>{
+				input({size:40
+					,type:'text'
+					,value:this.$bind.inputSearchTerms
+					,onkeydown:evt=>{
+						if (evt.key === "Enter") {
+							evt.preventDefault()
+							this.doFilter()
+						}
+					}
+				});
+				button({style:"margin-left:10px",onclick:this.doFilter.bind(this)},'Filter');
 			})
 
 
