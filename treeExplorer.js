@@ -27,6 +27,8 @@ import {
 	,dateFormatter
 } from "./parser/index.js"
 
+import highlightQueryInAbstract from "./highlightQueryInAbstract.js"
+
 let {selector,counts,idxWords,obj,header,setFirstTime,getFirstTime,cache_Qualifiers} = getParserState()
 
 import {table,button,dropdown,bootstrapPageWrapper,newElementID,checkbox} from "./bootstrapInjector.js"
@@ -52,6 +54,10 @@ const app = L3(class {
 		this.chkPT = {};
 		this.chkDP = {};
 		this.chkQualifiers = {};
+
+		this.$watch(L3.bindBase(router)._href,()=>{ //TODO: this SHOULD be in render(), but the ThirdLaw for replacing bindings on rerender is broken
+			this.updateSearchStateFromQuerystring()
+		})
 	}
 
 	get currentPmedPath() {
@@ -146,11 +152,9 @@ const app = L3(class {
 		}
 	}
 	render() {bootstrapPageWrapper(()=>{
-		//p("current href = " + router.href)
+		console.log("rerender")
 		//console.log("router = ", router)
-		this.$watch(L3.bindBase(router)._href,()=>{
-			this.updateSearchStateFromQuerystring()
-		})
+
 		if (!this.isDataUpToDate) {
 			this.loadData()
 		}
@@ -361,12 +365,12 @@ const app = L3(class {
 				}
 			}
 			var iRow = 1;
-			let titleFormatter = function(obj, code, joinargs) {
+			let titleFormatter = (obj, code, joinargs) => {
 				var title = obj[code] ? obj[code] : ['[No title available]'];
 				var v = '<A target=_blank href="https://pubmed.ncbi.nlm.nih.gov/' + obj['PMID'] + '\x22>' + title.join(' ') + '</a>';
 				if (obj['AB']) {
-					v += ` <button class="btn btn-secondary btn-sm" onclick="toggle_abstract(${iRow})">abstract</button>${(this.chkCol['AB'] ? "<div>" : '<div style="display:none">')}`
-						+ (obj['AB'] ? obj['AB'] : []).join('\n').replace(/</g,'&lt;')
+					v += ` <button class="btn btn-secondary btn-sm" onclick="toggle_abstract(${iRow})">abstract</button>${(this.chkCol['AB'] ? "<div style='margin-top:8px'>" : '<div style="display:none;margin-top:8px">')}`
+						+ highlightQueryInAbstract(this.searchTerms,(obj['AB'] ? obj['AB'] : []).join('\n').replace(/</g,'&lt;'))
 						+ '</div>';
 				}
 				if (this.chkCol['MH*'] && obj['MH']) {
@@ -534,6 +538,7 @@ const app = L3(class {
 							v = v ? v.join('\n').replace(/</g,'&lt;').replace('\n', '<br>') : '';
 						}
 					} catch(e) {
+						console.log("table render err =",e)
 					}
 					columns.push(v);
 				});
