@@ -187,6 +187,7 @@ const app = L3(class {
 			//		console.log("got rawData: ",this.rawData.length)
 			selector.boxes = this;
 			delete selector.runPT;
+			selector.cpmid = 0
 			this.rawData.split("\n").forEach(line => processOneLine(documentListView,line))
 			//selector.runDP = true
 			//selector.wantDP = {}
@@ -399,7 +400,7 @@ const app = L3(class {
 				}
 				return v;
 			}
-			p("<b>This heading has " + counts.pmid + " documents in CORD-19 PubMed.</b> Use the filters to exclude citations by type, MeSH qualifier and/or year.  (Citations which fail to match one or more filter columns are excluded.)<br>");
+			p("<b>This heading has " + selector.cpmid + " documents in CORD-19 PubMed.</b> Use the filters to exclude citations by type, MeSH qualifier and/or year.  (Citations which fail to match one or more filter columns are excluded.)<br>");
 			var colList = [
 						['Title','TI',titleFormatter]
 						,['Pub.Type','PT',';<br>']

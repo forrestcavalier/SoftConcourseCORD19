@@ -6,7 +6,9 @@ let {selector,counts,idxWords,obj,header,setFirstTime,getFirstTime,cache_Qualifi
 
 export default function selected(selector, obj) {
 	if (selector.hasOwnProperty('runPT')) {
+		selector.cpmid++
 	} else {
+		selector.cpmid = 1
 		/* This section runs one time */
 		selector.wantPT = {};
 		var hasFalse = false;
