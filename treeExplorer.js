@@ -497,14 +497,25 @@ const app = L3(class {
 			});
 
 			var columns = [];
+
 			outputView.push('<table class="table table-hover">');
 			documentListView.headers.forEach( header => {
-				columns.push(header.text);
+				columns.push(header.text + (header.text === "Date" ? " ↓" : ""));
 			});
 			outputView.push('<thead class="thead-dark">')
 			outputView.push('<tr><th>#<th>' + columns.join('<th>'));
 			outputView.push('</thead>')
-			documentListView.data.forEach( obj => {
+			function compareDates(a,b) {
+				let [yearA,monthA=0] = a.split("/").map(v => parseInt(v))
+				let [yearB,monthB=0] = b.split("/").map(v => parseInt(v))
+				if (yearA !== yearB) {
+					return yearA - yearB
+				} else {
+					return monthA - monthB
+				}
+			}
+
+			documentListView.data.sort((a,b)=>compareDates(dateFormatter(b,"DP"),dateFormatter(a,"DP"))).forEach( obj => {
 				var columns = [];
 				documentListView.headers.forEach( header => {
 					var v = '';
