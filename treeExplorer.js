@@ -108,6 +108,8 @@ const app = L3(class {
 			let searchStateKey = querystringKeyToSearchStateKey[querystringKey]
 			if (this[searchStateKey]) {
 				url.searchParams.set(querystringKey,this[searchStateKey])
+			} else {
+				url.searchParams.delete(querystringKey)
 			}
 		}
 		router.replaceHistory(url.href)
@@ -182,6 +184,9 @@ const app = L3(class {
 			selector.boxes = this;
 			delete selector.runPT;
 			this.rawData.split("\n").forEach(line => processOneLine(documentListView,line))
+			//selector.runDP = true
+			//selector.wantDP = {}
+			//console.log("running reportOne. selector = ",selector,"boxes = ",this.$actual)
 			reportOne(documentListView); /* Make sure last one is reported */
 
 
@@ -435,15 +440,15 @@ const app = L3(class {
 							text:v +' (' + counts.yearMonths[v] + ')'
 							,value:v
 						}));
-						if (getFirstTime()) {
+						if (getFirstTime()) { //This isn't getting run for some reason...
 							this.dropdownDPstart = options[0];
 							this.dropdownDPend = options[options.length-1];
 							console.log("I-818");
 						}
 						L3.elements.br();
-						span('Start:');dropdown({options,value:this.$bind.dropdownDPstart})
+						span('Start:');input({type:"date",value:this.$bind.dropdownDPstart})
 						L3.elements.br();
-						span('End:');dropdown({options,value:this.$bind.dropdownDPend})
+						span('End:');input({type:"date",value:this.$bind.dropdownDPend})
 
 /*						Object.keys(counts.yearMonths).sort().forEach(a => {
 							L3.elements.br();

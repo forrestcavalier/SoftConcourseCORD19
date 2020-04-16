@@ -26,15 +26,20 @@ export default function selected(selector, obj) {
 		selector.wantDP = {};
 		var hasFalse = false;
 
-		var DPstart = selector.boxes.dropdownDPstart;
+		var DPstart = selector.boxes.dropdownDPstart
 		//DPstart = DPstart ? DPstart.substr(0,DPstart.indexOf(' (')) : '';
-		var DPend = selector.boxes.dropdownDPend;
+		var DPend = selector.boxes.dropdownDPend
 		//DPend = DPend ? DPend.substr(0,DPend.indexOf(' (')) : '';
-		if (!DPstart || !DPend || DPstart > DPend) {
+
+		let DPstartTime = new Date(DPstart).getTime()
+		let DPendTime = new Date(DPend).getTime()
+		if (!DPstart || !DPend || DPstartTime > DPendTime) {
 			// invalid
 		} else {
+			console.log("counts.yearMonths = ",counts.yearMonths)
 			Object.keys(counts.yearMonths).forEach(a => {
-				if (DPstart <= a && DPend >= a) {
+				let aDate = (new Date(a.replace(/\//g,"-")))
+				if (DPstartTime <= aDate.getTime() && aDate.getTime() <= DPendTime) {
 					selector.wantDP[a] = true;
 				} else {
 					hasFalse = true;
