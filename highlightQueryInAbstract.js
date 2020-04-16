@@ -15,7 +15,7 @@ function highlightResult(html,query,marginLen=-1,maxLen=Infinity) {
 	let lastMatch
 	let i = 0
 	debugger
-	const queryTermsRegexps = query.split(" ").map(term => termToRegexp(term))
+	const queryTermsRegexps = query.split(/\s+/).filter(term => term.trim()).map(term => termToRegexp(term))
 
 
 	while (i < html.length) {
