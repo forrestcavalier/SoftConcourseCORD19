@@ -365,15 +365,9 @@ const app = L3(class {
 				var title = obj[code] ? obj[code] : ['[No title available]'];
 				var v = '<A target=_blank href="https://pubmed.ncbi.nlm.nih.gov/' + obj['PMID'] + '\x22>' + title.join(' ') + '</a>';
 				if (obj['AB']) {
-					if (this.chkCol['AB']) {
-						v += '<span onclick=\"toggle_abstract(' + iRow + ')\">[+]</span><div>'
-							+ (obj['AB'] ? obj['AB'] : []).join('\n').replace(/</g,'&lt;')
-							+ '</div>';
-					} else {
-						v += '<span onclick=\"toggle_abstract(' + iRow + ')\">[+]</span><div style="display:none">'
-							+ (obj['AB'] ? obj['AB'] : []).join('\n').replace(/</g,'&lt;')
-							+ '</div>';
-					}
+					v += ` <button class="btn btn-secondary btn-sm" onclick="toggle_abstract(${iRow})">abstract</button>${(this.chkCol['AB'] ? "<div>" : '<div style="display:none">')}`
+						+ (obj['AB'] ? obj['AB'] : []).join('\n').replace(/</g,'&lt;')
+						+ '</div>';
 				}
 				if (this.chkCol['MH*'] && obj['MH']) {
 					var v2 = '<br>';
@@ -497,18 +491,24 @@ const app = L3(class {
 				if (code == 'AB') return;
 				if (code == 'MH*') return; // no column header.
 				if (code == 'TI' || this.chkCol[code]) {
-					documentListView.headers.push({ text: name, value: code, join:(joiner && joiner.bind ?joiner.bind(this) : joiner),joinargs:joinerargs });
+					documentListView.headers.push({
+						text: name+(code === "DP" ? " ↓" : "")
+						, value: code
+						, join:(joiner && joiner.bind ?joiner.bind(this) : joiner)
+						,joinargs:joinerargs
+						,fixedWidth:code === "PT" ? "170px" : undefined
+					});
 				}
 			});
 
-			var columns = [];
+			var columnHTML = "<th>#</th>";
 
 			outputView.push('<table class="table table-hover">');
 			documentListView.headers.forEach( header => {
-				columns.push(header.text + (header.text === "Date" ? " ↓" : ""));
+				columnHTML += `<th ${header.fixedWidth ? `style="width:${header.fixedWidth}"` : ""}>${header.text}</th>`
 			});
 			outputView.push('<thead class="thead-dark">')
-			outputView.push('<tr><th>#<th>' + columns.join('<th>'));
+			outputView.push('<tr>'+columnHTML);
 			outputView.push('</thead>')
 			function compareDates(a,b) {
 				let [yearA,monthA=0] = a.split("/").map(v => parseInt(v))
