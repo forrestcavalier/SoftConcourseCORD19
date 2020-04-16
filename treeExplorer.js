@@ -382,12 +382,12 @@ const app = L3(class {
 							var nostar = mh.replace('*','');
 							if (mh != header.name && nostar.indexOf(check) < 0) {
 								if (v3 == '') {
-									v3 = '<br>Also under:'
+									v3 = '<br>Also under: '
 								}
 								v3 += '[' + '<A href=\x22' + conceptUri(nostar.split('/')[0]) + '\x22>' + mh + '</a>] '
 							} else {
 								/* This header */
-								v2 += '/' + mh.replace(check,'') + '; '
+								v2 += mh.replace(check,'').split("/").map(meshHeading => `<span class="badge badge-${meshHeading.startsWith("*") ? "info" : "secondary"} badge-pill">${meshHeading}</span>`).join(" ")
 							}
 						}
 					});
