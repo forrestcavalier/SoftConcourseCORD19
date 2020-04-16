@@ -194,7 +194,7 @@ const app = L3(class {
 			reportOne(documentListView); /* Make sure last one is reported */
 
 
-			h1("CORD-19 PubMed citation explorer: " + header.name)
+
 			if (getFirstTime()) {
 				reportIdxWords();
 				Object.keys(counts.publicationTypes).sort().forEach(pt => {
@@ -208,6 +208,7 @@ const app = L3(class {
 				});
 				setFirstTime(false)
 			}
+
 			/* Now show totals */
 	//		console.log("I-330 PMID=" + counts.pmid);
 			var tallyGroup = counts.primaryMH;
@@ -222,6 +223,9 @@ const app = L3(class {
 				amt = amt.substr(amt.length - 5);
 				//console.log("I-342b MH " + amt + " " + a);
 			}
+
+			h1("CORD-19 PubMed citation explorer: " + header.preferredTerm)
+			document.title = "CORD-19 citation explorer - "+header.preferredTerm
 			/* Turn header into array. */
 			var displayData = [];
 			var row = [header.name, header.preferredTerm.split('\t')[6]];

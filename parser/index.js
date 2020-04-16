@@ -32,7 +32,6 @@ function processOneLine(documentList,line) {
 		var cols = [];
 		if (tField == ' 70a') {
 			header.name = ar[0];
-			document.title = header.name + " - CORD-19 citation explorer";
 			//		} else if (ar.length > 1) {
 		} else if (tField == ' 73a') {
 			//I-73a   descriptorui    descriptorname/string   treenumber
