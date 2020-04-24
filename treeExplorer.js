@@ -82,7 +82,7 @@ const app = L3(class {
 		//const url = "/dadLinguistics/apc20200411b/Coronavirus Infections.pmidx"
 
 		let pmedPath = this.currentPmedPath
-		this.rawData = await (await fetch(import.meta.url+`/../pubmedData/${pmedPath}.pmidx`)).text()
+		this.rawData = await (await fetch(import.meta.url+`/../pubmed.out/${pmedPath}.pmidx`)).text()
 		this.rawDataFromPath = pmedPath
 		setFirstTime(true)
 		reset_cache_Qualifiers()
