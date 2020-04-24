@@ -556,7 +556,7 @@ const app = L3(class {
 			if (documentListView.data.length > 0) {
 				div(outputView.join('\n'));
 			}
-			p('Copyright notice: MeSH descriptor data comes from the U.S. NLM. Click the source link to go to the MeSH website. PubMed citation data was last updated on 2020/04/14, consisting of 37713 citations. Pubmed Citation explorer version v20200414.');
+			p('Copyright notice: MeSH descriptor data comes from the U.S. NLM. Click the source link to go to the MeSH website. PubMed citation data was last updated on 2020/04/14, consisting of 37713 citations. Pubmed Citation explorer version v20200424.');
 		}
 	})}
 })

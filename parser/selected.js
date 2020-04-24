@@ -164,6 +164,7 @@ export default function selected(selector, obj) {
 		} else {
 			selector.runDP = true;
 		}
+		/* MeSH qualifiers */
 		selector.wantQ = {};
 		var hasFalse = false;
 		for (var a in selector.boxes.chkQualifiers) {
@@ -174,6 +175,7 @@ export default function selected(selector, obj) {
 			}
 		}
 		if (!hasFalse) {
+			//All of them were marked. No need to runQ.
 			delete selector.wantQ;
 			selector.runQ = false;
 		} else {
@@ -212,7 +214,7 @@ export default function selected(selector, obj) {
 		}
 	}
 	isWanted = false;
-	if (selector.wantQ) {
+	if (selector.runQ) {
 		var ar = cache_Qualifiers[obj['PMID']];
 		if (ar) {
 			for (var i = 0;i < ar.length;i++) {
